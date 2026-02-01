@@ -1,37 +1,47 @@
-# Pillar – AI Chatbot for TempleOS
+# Pillar – AI Chatbot for TempleOS (God Words)
 
-**Pillar** is a small AI-style chatbot written in **HolyC** for **TempleOS**. It’s rule-based: responses are chosen from built-in data (keywords and reply text). No network or external APIs—everything runs inside the Temple.
+**Pillar** is a HolyC chatbot for **TempleOS** tied into **God Words**—the entire Bible (KJV) built into the Temple. You can ask for specific verses, random passages, or chat about the Temple and HolyC.
 
 ## Features
 
-- Conversational loop: you type, Pillar answers.
-- Topics: greetings, TempleOS, HolyC, Terry Davis / God, Pillar itself, help, thanks.
-- Case-insensitive keyword matching.
-- Random variation for some answers.
-- Exit with **bye**, **quit**, or **exit**.
+- **God Words (entire Bible)**  
+  - **verse &lt;ref&gt;** – e.g. `verse John 3:16`, `verse Genesis 1:1` → prints that verse (and a few lines).  
+  - **passage** / **god words** – random passage from the full Bible.  
+  - **random verse** / **random passage** – same, shorter random passage.  
+  - **bible** – random passage or a hint to use `verse` / `passage`.
+
+- **Chat**  
+  Greetings, TempleOS, HolyC, God/Terry, Pillar, help, thanks. Case-insensitive keyword matching.
+
+- **Exit**  
+  **bye**, **quit**, or **exit**.
 
 ## How to run on TempleOS
 
-1. Copy `Pillar.HC` into your TempleOS tree (e.g. under `Home:` or any folder).
-2. In the TempleOS shell (or from the editor):
-   - **Run from shell:**  
-     `Pillar.HC`
-   - Or open `Pillar.HC` in the editor and execute it (e.g. run / compile as your setup supports).
+1. Ensure the **God** module and **God Words** (Bible) are present under `::/Adam/God/` (e.g. `GodWords.DD` and `GodBible.HC`).
+2. Copy `Pillar.HC` into your TempleOS tree (e.g. `Home:`).
+3. Run from shell: **`Pillar.HC`**  
+   Or open `Pillar.HC` in the editor and run/execute it.
 
-3. When it starts, you’ll see a short intro. Type a line and press Enter; Pillar will reply. Repeat until you type **bye** or **quit**.
+Pillar includes `::/Adam/God/GodBible` and calls `BibleInit` at startup so verse and passage lookups use the same Bible data as the rest of the Temple.
 
 ## Example
 
 ```
 *** Pillar ***
-AI chatbot for TempleOS. Say hello, or ask about TempleOS, HolyC, or God.
-Type bye or quit to exit.
+AI chatbot for TempleOS, tied to God Words (entire Bible).
+Say: verse John 3:16 | random verse | passage | god words | help | bye
 
-You: hello
-Pillar: Hello! Welcome to the Temple.
+You: verse John 3:16
+Pillar:
 
-You: what is holyc
-Pillar: HolyC is the language of the Temple. C-like, one-pass compiler...
+John 3:16 For God so loved the world...
+
+You: passage
+Pillar: From the Bible:
+
+[Psalms 23:1]
+The LORD is my shepherd...
 
 You: bye
 Pillar: Peace be with you. Until we talk again.
@@ -39,9 +49,9 @@ Pillar: Peace be with you. Until we talk again.
 
 ## Requirements
 
-- **TempleOS** (or a HolyC environment that provides `Print`, `GetChar`, `StrLen`, `Rand`).
-- If `Rand` is not available, change `PickResponse` to use another source (e.g. `GetTicks() % n`).
+- **TempleOS** with the **God** module (e.g. `::/Adam/God/GodBible` and `GodWords.DD`).
+- If the Bible file lives elsewhere, define `BIBLE_FILENAME` before including GodBible (or edit the `#define` at the top of `Pillar.HC`).
 
 ## File
 
-- **Pillar.HC** – HolyC source; all logic and “AI” data (keywords and responses) are in this file.
+- **Pillar.HC** – HolyC source; includes GodBible, defines verse/passage commands and chat logic.
